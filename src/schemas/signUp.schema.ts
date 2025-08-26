@@ -9,8 +9,19 @@ const usernamevalidation = z
 const emailValidation = z.string().email({ message: "Invalid email" });
 const passwordValidation = z
   .string()
-  .min(8, { message: "Password should have minimun 8 characters." });
+  .min(8, { message: "Password should have minimun 8 characters." })
+  .regex(/[A-Z]/, {
+    message: "Password must contain atleast 1 uppercase letter",
+  })
+  .regex(/[a-z]/, {
+    message: "Password must containe atleast 1 lowercase letter",
+  })
+  .regex(/[0-9]/, { message: "Password must contain 1 number" });
 
-const signupschmea = z.object({
+const SignupSchema = z.object({
   username: usernamevalidation,
+  email: emailValidation,
+  password: passwordValidation,
 });
+
+export { SignupSchema };
