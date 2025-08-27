@@ -58,11 +58,10 @@ const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      if(token){
-        
+      if (token) {
+        session.user._id = token._id;
       }
       return session;
-      
     },
   },
   session: {
