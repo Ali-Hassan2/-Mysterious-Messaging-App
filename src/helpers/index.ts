@@ -1,0 +1,1 @@
+export { sendingemail } from "./sendingVerificationEmail";
