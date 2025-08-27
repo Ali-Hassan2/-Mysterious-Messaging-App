@@ -7,12 +7,19 @@ declare module "next-auth" {
     isAcceptingMessages?: boolean;
     isVerified?: boolean;
   }
-  interface session {
+  interface Session {
     user: {
       _id?: string;
       username?: string;
       isAcceptingMessages?: string;
       isVerified?: string;
     } & DefaultSession["user"];
+  }
+}
+
+// we can write jwt interfce as
+declare module "next-auth/jwt";{
+  interface JWT{
+    
   }
 }
