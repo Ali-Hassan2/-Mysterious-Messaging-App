@@ -47,4 +47,11 @@ const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  session: {
+    strategy: "jwt",
+  },
+  pages: {
+    signIn: "/signin",
+  },
+  secret: process.env.NEXT_AUTH_SECRET,
 };
