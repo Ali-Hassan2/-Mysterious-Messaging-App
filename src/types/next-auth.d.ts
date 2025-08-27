@@ -24,5 +24,6 @@ declare module "next-auth/jwt";
     _id?: string;
     username?: string;
     isAcceptingMessages?: boolean;
+    isVerified?: boolean;
   }
 }
