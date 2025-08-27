@@ -33,7 +33,15 @@ const authOptions: NextAuthOptions = {
             if (!user.isVerified) {
               throw new Error("Please verfiy you account first.");
             }
-            const isCorrectPassword = await bcr
+            const isCorrectPassword = await bcrypt.compare(
+              credentials.password,
+              user.password
+            );
+            if (isCorrectPassword) {
+              return user;
+            } else {
+              throw new Error("Incorrect Password.");
+            }
           } catch (error) {}
         },
       },
