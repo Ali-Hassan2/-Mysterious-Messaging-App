@@ -1,34 +1,50 @@
 import { UserModel } from "@/model";
 import { sendingemail } from "@/helpers";
 import { connect_db } from "@/lib";
-import { sendingemail } from "@/helpers";
 import bcrypt from "bcrypt";
+import { NextResponse } from "next/server";
 
-const POST = async (request: Request, response: Response) => {
+const POST = async (request: Request) => {
   await connect_db();
   try {
-    const { username, email, password } = await Request.json();
+    const { username, email, password } = await request.json();
+
     const existinguserwithusername = await UserModel.findOne({
       username,
-      isverified: true,
+      isVerified: true,
     });
+
     if (existinguserwithusername) {
-      return response
-        .json({
+      return NextResponse.json(
+        {
           success: false,
           message: "Username is already occupied",
-        })
-        .status(400);
+        },
+        { status: 400 }
+      );
     }
+
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const existinguserwithemail = await UserModel.findOne({
-      email,
-    });
+    const existinguserwithemail = await UserModel.findOne({ email });
+
     if (existinguserwithemail) {
-      if
+      if (existinguserwithemail.isVerified) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "User already verified with this email",
+          },
+          { status: 400 }
+        );
+      } else {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        existinguserwithemail.password = hashedPassword;
+        existinguserwithemail.verifyCode = otp;
+        existinguserwithemail.verifyCodeExpiry = new Date(Date.now() + 3600000); // 1hr
+        await existinguserwithemail.save();
+      }
     } else {
-      // user comes first time
-      const hashedPassword = await bcrypt.hash(10, password);
+      const hashedPassword = await bcrypt.hash(password, 10);
       const expiryDate = new Date();
       expiryDate.setHours(expiryDate.getHours() + 1);
 
@@ -42,30 +58,34 @@ const POST = async (request: Request, response: Response) => {
         isAcceptingMessages: true,
         messages: [],
       });
+
+      await newUser.save();
     }
-    await newUser.save();
-    //sending verfication email
 
     const emailResponse = await sendingemail(email, username, otp);
     if (!emailResponse) {
-      return response.json(
+      return NextResponse.json(
         {
           success: false,
-          message: emailResponse?.message,
+          message: emailResponse?.message || "Failed to send email",
         },
         { status: 500 }
       );
     }
-    return Response.json({
+
+    return NextResponse.json({
       success: true,
       message: "User registered successfully",
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error registering user.", error);
-    return Response.json({
-      success: false,
-      message: "Error registering user.",
-      error: error?.message,
-    }).status(500);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Error registering user.",
+        error: error?.message,
+      },
+      { status: 500 }
+    );
   }
 };
