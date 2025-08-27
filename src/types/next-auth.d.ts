@@ -18,10 +18,11 @@ declare module "next-auth" {
 }
 
 // we can write jwt interfce as
-declare module "next-auth/jwt";{
-  interface JWT{
-    _id?:string,
-    username?:string,
-    isAcceptingMessages
+declare module "next-auth/jwt";
+{
+  interface JWT {
+    _id?: string;
+    username?: string;
+    isAcceptingMessages?: boolean;
   }
 }
