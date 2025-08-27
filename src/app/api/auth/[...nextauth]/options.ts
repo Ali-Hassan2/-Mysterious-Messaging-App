@@ -60,6 +60,9 @@ const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token) {
         session.user._id = token._id;
+        session.user.username = token.username;
+        session.user.isAcceptingMessages = token.isAcceptingMessages;
+        session.user.isVerified = token.isVerified;
       }
       return session;
     },
