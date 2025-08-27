@@ -18,7 +18,6 @@ const authOptions: NextAuthOptions = {
           type: "password",
           placeholder: "Your password",
         },
-        
         async authorize(credentials: any): Promise<any> {
           await connect_db();
           try {
