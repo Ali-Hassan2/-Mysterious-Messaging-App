@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import { UserModel } from "@/model";
 import { connect_db } from "@/lib";
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialProvider({
       id: "credentials",
@@ -18,7 +18,7 @@ const authOptions: NextAuthOptions = {
           type: "password",
           placeholder: "Your password",
         },
-        
+
         async authorize(credentials: any): Promise<any> {
           await connect_db();
           try {
