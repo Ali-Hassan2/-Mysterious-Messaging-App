@@ -1,4 +1,4 @@
 import NextAuth from "next-auth";
 import { authOptions } from "./options";
 
-const handler 
+const handler  = async(authOptions)
