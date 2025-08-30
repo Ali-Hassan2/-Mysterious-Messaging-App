@@ -4,7 +4,10 @@ import { getToken } from "next-auth/jwt";
 async function middleware(request: NextRequest) {
   const token = await getToken({ req: request });
   const url = request.nextUrl;
-  if(token)
+  if(token && (
+    url.pathname.startsWith('/signin') ||
+    url.pathname.startsWith('/signup')
+  ))
 }
 const config = {
   matcher: ["/signin", "/signup", "/"],
