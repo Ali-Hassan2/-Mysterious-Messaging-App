@@ -16,6 +16,6 @@ async function middleware(request: NextRequest) {
 
   return NextResponse.redirect(new URL("/", request.url));
 }
-const config = {
+export const config = {
   matcher: ["/signin", "/signup", "/", "/dashboard/:path*", "verify/:path*"],
 };
