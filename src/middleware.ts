@@ -10,7 +10,7 @@ async function middleware(request: NextRequest) {
     url.pathname.startsWith('/verify') || 
     url.pathname.startsWith('/')
   )){
-    return NextResponse.redirect
+    return NextResponse.redirect(new URL)
   }
 }
 const config = {
