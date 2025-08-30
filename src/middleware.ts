@@ -7,7 +7,7 @@ async function middleware(request: NextRequest) {
   if(token && (
     url.pathname.startsWith('/signin') ||
     url.pathname.startsWith('/signup') || 
-    url.pathname.startsWith
+    url.pathname.startsWith('/verify') || 
   ))
 }
 const config = {
