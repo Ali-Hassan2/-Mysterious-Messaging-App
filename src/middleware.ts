@@ -9,7 +9,9 @@ async function middleware(request: NextRequest) {
     url.pathname.startsWith('/signup') || 
     url.pathname.startsWith('/verify') || 
     url.pathname.startsWith('/')
-  ))
+  )){
+    return 
+  }
 }
 const config = {
   matcher: ["/signin", "/signup", "/"],
