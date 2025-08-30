@@ -1,3 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
 
-export const config = {};
+function middleware(request:NextRequest){
+    
+}
