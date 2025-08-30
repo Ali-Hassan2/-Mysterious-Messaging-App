@@ -6,7 +6,7 @@ async function middleware(request: NextRequest) {
   const url = request.nextUrl;
   if(token && (
     url.pathname.startsWith('/signin') ||
-    url.pathname.startsWith('/signup')
+    url.pathname.startsWith('/signup') || 
   ))
 }
 const config = {
