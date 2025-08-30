@@ -8,6 +8,7 @@ async function middleware(request: NextRequest) {
     url.pathname.startsWith('/signin') ||
     url.pathname.startsWith('/signup') || 
     url.pathname.startsWith('/verify') || 
+    url
   ))
 }
 const config = {
