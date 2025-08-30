@@ -14,7 +14,7 @@ async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  return NextResponse.redirect(new URL("/",request));
+  return NextResponse.redirect(new URL("/", request.url));
 }
 const config = {
   matcher: ["/signin", "/signup", "/"],
