@@ -11,7 +11,7 @@ async function middleware(request: NextRequest) {
       url.pathname.startsWith("/verify") ||
       url.pathname.startsWith("/"))
   ) {
-    return NextResponse.redirect(new URL("/dashboard"));
+    return NextResponse.redirect(new URL("/dashboard",request));
   }
 }
 const config = {
