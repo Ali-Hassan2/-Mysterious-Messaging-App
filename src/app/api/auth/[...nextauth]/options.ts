@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import { UserModel } from "@/model";
 import { connect_db } from "@/lib";
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   providers: [
     CredentialProvider({
       id: "credentials",

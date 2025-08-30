@@ -4,7 +4,7 @@ import { connect_db } from "@/lib";
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 
-const POST = async (request: Request) => {
+export const POST = async (request: Request) => {
   await connect_db();
   try {
     const { username, email, password } = await request.json();
@@ -62,12 +62,18 @@ const POST = async (request: Request) => {
       await newUser.save();
     }
 
-    const emailResponse = await sendingemail(email, username, otp);
-    if (!emailResponse) {
+    // ✅ FIXED CALL
+    const emailResponse = await sendingemail({
+      email,
+      username,
+      verifycode: otp,
+    });
+
+    if (!emailResponse.success) {
       return NextResponse.json(
         {
           success: false,
-          message: emailResponse?.message || "Failed to send email",
+          message: emailResponse.message || "Failed to send email",
         },
         { status: 500 }
       );
