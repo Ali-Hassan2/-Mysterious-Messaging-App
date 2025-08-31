@@ -2,7 +2,6 @@ import { z } from "zod";
 
 const usernamevalidation = z
   .string()
-  .min(6, { message: "minimum 6 characters" })
   .max(12, "12 maximum characters.")
   .regex(/^[a-zA-Z0-9]+$/, "Username should not have special characters.");
 
@@ -24,4 +23,4 @@ const SignupSchema = z.object({
   password: passwordValidation,
 });
 
-export { SignupSchema };
+export { SignupSchema, usernamevalidation };
