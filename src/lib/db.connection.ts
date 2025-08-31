@@ -13,6 +13,7 @@ const connect_db: Promise<void> = async () => {
   }
   try {
     const uri = process.env.MONGODB_URI;
+    console.log("The mongodb uri is:", process.env.MONDODB_URI);
     if (!uri) {
       console.log("There is no mongodb uri provided.");
       process.exit(1);
