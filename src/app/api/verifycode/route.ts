@@ -1,8 +1,8 @@
 import { connect_db } from "@/lib";
 import { UserModel } from "@/model";
 
-export async function GET(request: Request) {
-  if (request.method !== "GET") {
+export async function POST(request: Request) {
+  if (request.method !== "POST") {
     return Response.json(
       {
         success: false,
