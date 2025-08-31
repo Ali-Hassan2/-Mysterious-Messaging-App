@@ -7,7 +7,7 @@ const UsernameQuerySchema = z.object({
   username: usernamevalidation,
 });
 
-async function GET(request: Request) {
+export async function GET(request: Request) {
   await connect_db();
   const { searchParams } = new URL(request.url);
   const queryParams = {
@@ -33,7 +33,7 @@ async function GET(request: Request) {
   const { username } = result.data;
   const existingVerifiedUser = await UserModel.findOne({
     username,
-    verified: true,
+    isVerified: true,
   });
   if (existingVerifiedUser) {
     return Response.json(
