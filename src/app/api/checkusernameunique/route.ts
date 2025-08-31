@@ -20,9 +20,7 @@ export async function GET(request: Request) {
     username: searchParams.get("username"),
   };
   const result = UsernameQuerySchema.safeParse(queryParams);
-  console.log("The result is:", result);
-
-  
+  console.log("The result is:", result);  
   if (!result.success) {
     const usernameErrors = result.error.format().username?._errors || [];
     return Response.json(
