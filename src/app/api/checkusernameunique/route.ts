@@ -21,6 +21,8 @@ export async function GET(request: Request) {
   };
   const result = UsernameQuerySchema.safeParse(queryParams);
   console.log("The result is:", result);
+
+  
   if (!result.success) {
     const usernameErrors = result.error.format().username?._errors || [];
     return Response.json(
