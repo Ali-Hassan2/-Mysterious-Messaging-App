@@ -7,8 +7,6 @@ const UsernameQuerySchema = z.object({
   username: usernamevalidation,
 });
 
-
-
 export async function GET(request: Request) {
   if (request.method !== "GET") {
     return Response.json({
