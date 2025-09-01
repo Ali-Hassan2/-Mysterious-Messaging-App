@@ -42,6 +42,7 @@ const UserSchema: Schema<IUser> = new Schema(
     isVerified: {
       type: Boolean,
       default: false,
+      
     },
     isAcceptingMessages: {
       type: Boolean,
