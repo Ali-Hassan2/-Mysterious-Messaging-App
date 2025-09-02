@@ -20,7 +20,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         model: "deepseek-chat",
         prompt,
-        max_token: 200,
+        max_tokens: 200,
         stream: true,
       }),
     });
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     }
     const data = await response.json();
     const text = data.choices?.[0]?.text ?? "No response";
-    return NextResponse({
+    return NextResponse.json({
       success: true,
       result: text,
     });
