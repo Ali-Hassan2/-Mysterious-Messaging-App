@@ -34,8 +34,11 @@ export async function POST(request: Request) {
         { status: response.status }
       );
     }
-    const stream = OpenAIStream(response);
-    return new StreamingTextResponse(stream);
+    const data = await response.json();
+    const text = data.choices?.[0]?.text ?? "No response";
+    return NextResponse({
+      success: true,
+    });
   } catch (error) {
     if (error instanceof OpenAI.APIError) {
       const { name, status, headers, message } = error;
