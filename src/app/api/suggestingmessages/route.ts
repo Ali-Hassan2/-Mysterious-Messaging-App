@@ -34,6 +34,7 @@ export async function POST(request: Request) {
         { status: response.status }
       );
     }
+    
     const data = await response.json();
     const text = data.choices?.[0]?.text ?? "No response";
     return NextResponse.json({
