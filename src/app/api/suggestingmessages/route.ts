@@ -23,12 +23,15 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof OpenAI.APIError) {
       const { name, status, headers, message } = error;
-      return NextResponse({
-        name,
-        status,
-        headers,
-        message
-      });
+      return NextResponse(
+        {
+          name,
+          status,
+          headers,
+          message,
+        },
+        { status }
+      );
     } else {
       console.error("There is an Unexpected error", error);
       throw error;
