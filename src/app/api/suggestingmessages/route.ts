@@ -8,5 +8,22 @@ const openai = new OpenAI({
 export const runtime = "edge";
 
 export async function POST(request: Request) {
-  const { messages } = await request.json();
+  try {
+    const { messages } = await request.json();
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      stream: true,
+      messages,
+    });
+    const stream = OpenAIStream(response);
+
+    return new StreamingTextResponse(stream);
+  } catch (error) {
+    if (error) {
+    } else {
+      console.error("There is an Unexpected error", error);
+      throw error;
+    }
+  }
 }
