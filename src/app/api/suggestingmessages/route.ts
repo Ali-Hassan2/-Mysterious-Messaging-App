@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       const {name,status,headers,message} = error;
       return NextResponse({
         name,
-        
+        status,
       })
     } else {
       console.error("There is an Unexpected error", error);
