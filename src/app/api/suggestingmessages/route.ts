@@ -22,11 +22,12 @@ export async function POST(request: Request) {
     return new StreamingTextResponse(stream);
   } catch (error) {
     if (error instanceof OpenAI.APIError) {
-      const {name,status,headers,message} = error;
+      const { name, status, headers, message } = error;
       return NextResponse({
         name,
         status,
-      })
+        headers,
+      });
     } else {
       console.error("There is an Unexpected error", error);
       throw error;
