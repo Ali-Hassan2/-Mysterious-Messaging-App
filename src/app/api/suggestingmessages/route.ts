@@ -21,7 +21,7 @@ export async function POST(request: Request) {
         model: "deepseek-chat",
         prompt,
         max_token: 200,
-        stream: false,
+        stream: true,
       }),
     });
     if (!response.ok) {
