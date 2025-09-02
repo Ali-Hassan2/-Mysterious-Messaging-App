@@ -27,6 +27,7 @@ export async function POST(request: Request) {
         name,
         status,
         headers,
+        message
       });
     } else {
       console.error("There is an Unexpected error", error);
