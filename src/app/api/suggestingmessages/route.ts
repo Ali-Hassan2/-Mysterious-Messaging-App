@@ -1,4 +1,4 @@
-import OpenAI from "openai";
+import OpenAI, { APIError } from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 
 const openai = new OpenAI({
@@ -20,7 +20,9 @@ export async function POST(request: Request) {
 
     return new StreamingTextResponse(stream);
   } catch (error) {
-    if (error) {
+    if (error instanceof OpenAI.APIError) {
+      const {name,status,headers,message} = error;
+      return 
     } else {
       console.error("There is an Unexpected error", error);
       throw error;
