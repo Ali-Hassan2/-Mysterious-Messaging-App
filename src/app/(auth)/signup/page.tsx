@@ -10,7 +10,13 @@ import { useDebounceValue } from "usehooks-ts";
 import { showToast } from "@/Utils";
 import { SignupSchema } from "@/schemas";
 import { ApiResponse } from "@/types";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 
 const Page = () => {
   const [username, setUsername] = useState<string>("");
@@ -29,37 +35,37 @@ const Page = () => {
     },
   });
 
-  //   useEffect(() => {
-  //     const checkUsername = async () => {
-  //       if (!debouncedUsername) return;
+  useEffect(() => {
+    const checkUsername = async () => {
+      if (!debouncedUsername) return;
 
-  //       setIsCheckingUsername(true);
-  //       setUsernameMessage("");
+      setIsCheckingUsername(true);
+      setUsernameMessage("");
 
-  //       const controller = new AbortController();
-  //       const timeout = setTimeout(() => controller.abort(), 5000);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
 
-  //       try {
-  //         const { data } = await axios.get<ApiResponse>(
-  //           `/api/checkusernameunique?username=${debouncedUsername}`,
-  //           { signal: controller.signal }
-  //         );
+      try {
+        const { data } = await axios.get<ApiResponse>(
+          `/api/checkusernameunique?username=${debouncedUsername}`,
+          { signal: controller.signal }
+        );
 
-  //         setUsernameMessage(data.message);
-  //       } catch (error) {
-  //         const axiosError = error as AxiosError<ApiResponse>;
-  //         setUsernameMessage(
-  //           axiosError.response?.data.message ||
-  //             "Error checking username, try again later"
-  //         );
-  //       } finally {
-  //         clearTimeout(timeout);
-  //         setIsCheckingUsername(false);
-  //       }
-  //     };
+        setUsernameMessage(data.message);
+      } catch (error) {
+        const axiosError = error as AxiosError<ApiResponse>;
+        setUsernameMessage(
+          axiosError.response?.data.message ||
+            "Error checking username, try again later"
+        );
+      } finally {
+        clearTimeout(timeout);
+        setIsCheckingUsername(false);
+      }
+    };
 
-  //     checkUsername();
-  //   }, [debouncedUsername]);
+    checkUsername();
+  }, [debouncedUsername]);
 
   const onSubmit = async (data: z.infer<typeof SignupSchema>) => {
     try {
@@ -92,23 +98,18 @@ const Page = () => {
           </div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FormField
+              <FormField
                 control={form.control}
                 name="username"
-                render={({field})=>{
-                    return (
-                        <FormItem>
-                            <FormLabel>
-                                Username
-                            </FormLabel>
-                            <FormControl>
-
-                            </FormControl>
-                            
-                        </FormItem>
-                    )
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Username</FormLabel>
+                      <FormControl></FormControl>
+                    </FormItem>
+                  );
                 }}
-                />
+              />
             </form>
           </Form>
         </div>
