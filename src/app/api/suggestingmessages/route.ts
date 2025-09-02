@@ -20,6 +20,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         model: "deepseek-chat",
         prompt,
+        max_token: 200,
       }),
     });
     if (!response.ok) {
