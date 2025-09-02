@@ -38,22 +38,13 @@ export async function POST(request: Request) {
     const text = data.choices?.[0]?.text ?? "No response";
     return NextResponse({
       success: true,
+      result: text,
     });
   } catch (error) {
-    if (error instanceof OpenAI.APIError) {
-      const { name, status, headers, message } = error;
-      return NextResponse(
-        {
-          name,
-          status,
-          headers,
-          message,
-        },
-        { status }
-      );
-    } else {
-      console.error("There is an Unexpected error", error);
-      throw error;
-    }
+    console.error("Unexpected error:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
