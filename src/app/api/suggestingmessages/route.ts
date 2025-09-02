@@ -26,7 +26,13 @@ export async function POST(request: Request) {
     });
     if (!response.ok) {
       const error_Data = await response.json().catch(() => null);
-      throw new Error(error_Data?.message || "Cannot process AI");
+      return NextResponse.json(
+        {
+          success: false,
+          error: error_Data?.message,
+        },
+        { status: response.status }
+      );
     }
     const stream = OpenAIStream(response);
     return new StreamingTextResponse(stream);
