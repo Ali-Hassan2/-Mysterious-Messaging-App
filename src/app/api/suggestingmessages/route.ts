@@ -24,6 +24,7 @@ export async function POST(request: Request) {
     if (error instanceof OpenAI.APIError) {
       const {name,status,headers,message} = error;
       return NextResponse({
+        name,
         
       })
     } else {
