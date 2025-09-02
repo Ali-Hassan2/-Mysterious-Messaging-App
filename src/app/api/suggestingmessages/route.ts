@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          error: error_Data?.message,
+          error: error_Data?.message || "Request Failed",
         },
         { status: response.status }
       );
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Unexpected error:", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { success: false, error: "Internal Server Error" },
       { status: 500 }
     );
   }
