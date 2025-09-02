@@ -62,7 +62,6 @@ export const POST = async (request: Request) => {
       await newUser.save();
     }
 
-    // ✅ FIXED CALL
     const emailResponse = await sendingemail({
       email,
       username,

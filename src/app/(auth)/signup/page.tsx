@@ -13,10 +13,13 @@ import { ApiResponse } from "@/types";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 const Page = () => {
   const [username, setUsername] = useState<string>("");
@@ -97,15 +100,55 @@ const Page = () => {
             </p>
           </div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
-                control={form.control}
                 name="username"
+                control={form.control}
                 render={({ field }) => {
                   return (
                     <FormItem>
                       <FormLabel>Username</FormLabel>
-                      <FormControl></FormControl>
+                      <FormControl>
+                        <Input
+                          placeholder="Username"
+                          {...field}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            setUsername(e.target.value);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+              <FormField
+                name="email"
+                control={form.control}
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="Email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+              <FormField
+                name="password"
+                control={form.control}
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Password" {...field} />
+                      </FormControl>
+                      <FormMessage />
                     </FormItem>
                   );
                 }}
