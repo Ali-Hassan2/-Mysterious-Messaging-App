@@ -10,8 +10,7 @@ export const runtime = "edge";
 
 export async function POST(request: Request) {
   try {
-    const { messages } = await request.json();
-
+    const prompt = "Create a list of three open-ended"
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       stream: true,
