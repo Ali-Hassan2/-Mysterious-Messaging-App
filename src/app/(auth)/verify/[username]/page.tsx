@@ -59,7 +59,6 @@ const VerifyPage = () => {
             Enter the 6-digit code sent to your email
           </p>
         </div>
-
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <FormField
@@ -79,7 +78,6 @@ const VerifyPage = () => {
                 </FormItem>
               )}
             />
-
             <Button
               type="submit"
               className="w-full bg-slate-800 hover:bg-slate-700 text-white"
@@ -95,7 +93,6 @@ const VerifyPage = () => {
             </Button>
           </form>
         </Form>
-
         <p className="text-center text-sm text-slate-500">
           Didn’t receive a code?{" "}
           <button
