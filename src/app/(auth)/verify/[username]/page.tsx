@@ -19,8 +19,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
 
 const VerifyPage = () => {
+  const [verifying, setIsVerifying] = useState<boolean>(false);
   const router = useRouter();
   const params = useParams<{ username: string }>();
 
@@ -32,6 +34,8 @@ const VerifyPage = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
+    setIsVerifying(true);
+    console.log("Mei chla ");
     try {
       const response = await axios.post<ApiResponse>("/api/verifycode", {
         username: params.username,
@@ -44,6 +48,8 @@ const VerifyPage = () => {
       const axiosError = error as AxiosError<ApiResponse>;
       const err = axiosError.response?.data.message;
       showToast(err || "Verification failed", "error");
+    } finally {
+      setIsVerifying(false);
     }
   };
   return (
@@ -79,11 +85,11 @@ const VerifyPage = () => {
             <Button
               type="submit"
               className="w-full bg-slate-800 hover:bg-slate-700 text-white"
-              disabled={form.formState.isSubmitting}
+              disabled={verifying}
             >
-              {form.formState.isSubmitting ? (
+              {verifying ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Verifying...
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Verifying
                 </>
               ) : (
                 "Verify"

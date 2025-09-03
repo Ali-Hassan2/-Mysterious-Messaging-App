@@ -6,7 +6,7 @@ const verifycodeValidation = z
   .max(6, { message: "Code should be exactly 6 characters long." });
 
 const verifySchema = z.object({
-  verifycode: verifycodeValidation,
+  code: verifycodeValidation,
 });
 
 export { verifySchema };
