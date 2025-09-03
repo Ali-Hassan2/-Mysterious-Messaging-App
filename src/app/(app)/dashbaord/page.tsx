@@ -1,11 +1,5 @@
-import React from 'react'
-
 const page = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div>Welcome, to Admin Page Authenticated User.</div>;
+};
 
-export default page
+export default page;
