@@ -37,7 +37,6 @@ const VerifyPage = () => {
         username: params.username,
         code: data.code,
       });
-
       showToast(response.data.message, "success");
       router.replace("/signin");
     } catch (error) {
@@ -47,7 +46,6 @@ const VerifyPage = () => {
       showToast(err || "Verification failed", "error");
     }
   };
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-slate-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-xl rounded-2xl">
@@ -71,6 +69,7 @@ const VerifyPage = () => {
                     <Input
                       placeholder="Enter your code"
                       maxLength={6}
+                      
                       {...field}
                     />
                   </FormControl>
