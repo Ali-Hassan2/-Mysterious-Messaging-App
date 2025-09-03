@@ -94,9 +94,9 @@ const Page = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center min-h-screen  border-2 border-red-500">
+      <div className="flex justify-center items-center min-h-screen shadow-2xl">
         <div className="w-full  max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-          <div className="flex flex-col items-center justify-center w-full py-6 border-2 border-blue-600 text-center">
+          <div className="flex flex-col items-center justify-center w-full py-6  text-center">
             <h2 className="text-3xl font-bold text-gray-900">
               Anonymous Messaging
             </h2>
