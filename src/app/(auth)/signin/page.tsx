@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { showToast } from "@/Utils";
 
 const Page = () => {
   const [signingIn, setSigningIn] = useState(false);
@@ -40,15 +41,21 @@ const Page = () => {
         identifier: data.identifier,
         password: data.password,
       });
-
+      console.log("The response is:", response);
       if (response?.ok) {
-        router.replace("/dashboard");
+        showToast("Login Successfull!", "success");
+        setTimeout(() => {
+          router.replace("/dashboard");
+        }, 5000);
       } else {
         console.error("Login failed:", response);
+        showToast("Login Failed.", "error");
         setSigningIn(false);
       }
     } catch (error) {
-      console.error("Error during sign in:", error);
+      
+    }
+    finally{
       setSigningIn(false);
     }
   };
