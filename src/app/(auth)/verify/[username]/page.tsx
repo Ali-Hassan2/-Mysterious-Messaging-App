@@ -71,6 +71,7 @@ const VerifyPage = () => {
                       maxLength={6}
                       {...field}
                     />
+                    
                   </FormControl>
                   <FormMessage />
                 </FormItem>
