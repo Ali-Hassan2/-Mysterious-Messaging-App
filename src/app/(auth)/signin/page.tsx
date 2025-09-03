@@ -36,6 +36,7 @@ const page = () => {
       identifier: data.identifier,
       password: data.password,
     });
+    console.log("The response is: ", response);
   };
   return (
     <>
