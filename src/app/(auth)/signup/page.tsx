@@ -22,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 const Page = () => {
   const [username, setUsername] = useState<string>("");
   const [isCheckingUsername, setIsCheckingUsername] = useState<boolean>(false);
@@ -186,6 +187,15 @@ const Page = () => {
               </Button>
             </form>
           </Form>
+          <div className="flex w-full justify-center items-center gap-2 text-sm">
+            <p>Already a member?</p>
+            <Link
+              href="/signin"
+              className="text-blue-900 font-medium hover:underline"
+            >
+              Sign In
+            </Link>
+          </div>
         </div>
       </div>
     </>
