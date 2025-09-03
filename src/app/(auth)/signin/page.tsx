@@ -6,7 +6,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signinSchema } from "@/schemas";
-import { signIn } from "next-auth/react";
+import { signIn, SignInResponse } from "next-auth/react";
 import {
   Form,
   FormControl,
@@ -36,7 +36,7 @@ const Page = () => {
     try {
       setSigningIn(true);
 
-      const response = await signIn("credentials", {
+      const response: SignInResponse | undefined = await signIn("credentials", {
         redirect: false,
         identifier: data.identifier,
         password: data.password,
