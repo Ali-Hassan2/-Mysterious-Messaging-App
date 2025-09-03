@@ -77,7 +77,8 @@ const Page = () => {
   const onSubmit = async (data: z.infer<typeof SignupSchema>) => {
     try {
       setIsSubmiting(true);
-      const response = await axios.post<ApiResponse>("/api/signup");
+      const response = await axios.post<ApiResponse>("/api/signup", data);
+
       const message = response.data.message;
       showToast(message, "success");
       router.replace(`/verify/code?username=${username}`);
@@ -122,7 +123,7 @@ const Page = () => {
                           }}
                         />
                       </FormControl>
-                      {isCheckingUsername ?? (
+                      {isCheckingUsername && (
                         <Loader2 className="animate-spin" />
                       )}
                       <p
