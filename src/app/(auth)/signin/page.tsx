@@ -14,7 +14,7 @@ const page = () => {
   const form = useForm<z.infer<typeof signinSchema>>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
-      redirect: false,
+
       identifier: "",
       password: "",
     },
@@ -22,6 +22,7 @@ const page = () => {
   const onSubmit = async (data: z.infer<typeof signinSchema>) => {
     setSigningIn(true);
     const response = await signIn("credentials", {
+      redirect: false,
       identifier: data.identifier,
       password: data.password,
     });
