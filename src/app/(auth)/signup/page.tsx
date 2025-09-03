@@ -82,7 +82,7 @@ const Page = () => {
 
       const message = response.data.message;
       showToast(message, "success");
-      router.replace(`/verify/code?username=${username}`);
+      router.replace(`/verify/${username}`);
       setIsSubmiting(false);
     } catch (error) {
       console.log("The error is:", error);
