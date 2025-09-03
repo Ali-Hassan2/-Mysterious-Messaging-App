@@ -52,8 +52,8 @@ const Page = () => {
         showToast("Login Failed.", "error");
         setSigningIn(false);
       }
-    } catch (error) {
-      
+    } catch (error:any) {
+      if()
     }
     finally{
       setSigningIn(false);
