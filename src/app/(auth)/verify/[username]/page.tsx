@@ -69,7 +69,6 @@ const VerifyPage = () => {
                     <Input
                       placeholder="Enter your code"
                       maxLength={6}
-                      
                       {...field}
                     />
                   </FormControl>
