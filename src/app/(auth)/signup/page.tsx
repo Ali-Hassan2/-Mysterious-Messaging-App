@@ -6,7 +6,7 @@ import axios, { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { useDebounceValue } from "usehooks-ts";
+import { useDebounceCallback } from "usehooks-ts";
 import { showToast } from "@/Utils";
 import { SignupSchema } from "@/schemas";
 import { ApiResponse } from "@/types";
@@ -20,13 +20,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 const Page = () => {
   const [username, setUsername] = useState<string>("");
   const [isCheckingUsername, setIsCheckingUsername] = useState<boolean>(false);
   const [usernameMessage, setUsernameMessage] = useState<string>("");
   const [isSubmiting, setIsSubmiting] = useState<boolean>(false);
-  const debouncedUsername = useDebounceValue(username, 300);
+  const debounced = useDebounceCallback(setUsername, 300);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof SignupSchema>>({
@@ -40,7 +41,10 @@ const Page = () => {
 
   useEffect(() => {
     const checkUsername = async () => {
-      if (!debouncedUsername) return;
+      if (!username) {
+        setUsernameMessage("");
+        return;
+      }
 
       setIsCheckingUsername(true);
       setUsernameMessage("");
@@ -50,7 +54,7 @@ const Page = () => {
 
       try {
         const { data } = await axios.get<ApiResponse>(
-          `/api/checkusernameunique?username=${debouncedUsername}`,
+          `/api/checkusernameunique?username=${username}`,
           { signal: controller.signal }
         );
 
@@ -68,7 +72,7 @@ const Page = () => {
     };
 
     checkUsername();
-  }, [debouncedUsername]);
+  }, [username]);
 
   const onSubmit = async (data: z.infer<typeof SignupSchema>) => {
     try {
@@ -114,10 +118,22 @@ const Page = () => {
                           {...field}
                           onChange={(e) => {
                             field.onChange(e);
-                            setUsername(e.target.value);
+                            debounced(e.target.value);
                           }}
                         />
                       </FormControl>
+                      {isCheckingUsername ?? (
+                        <Loader2 className="animate-spin" />
+                      )}
+                      <p
+                        className={`text-sm ${
+                          usernameMessage === "Username is unique"
+                            ? "text-green-500"
+                            : "text-red-600"
+                        }`}
+                      >
+                        {usernameMessage}
+                      </p>
                       <FormMessage />
                     </FormItem>
                   );
@@ -131,7 +147,7 @@ const Page = () => {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="Email" {...field} />
+                        <Input type="text" placeholder="Email" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -146,13 +162,27 @@ const Page = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input placeholder="Password" {...field} />
+                        <Input
+                          type="password"
+                          placeholder="Password"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   );
                 }}
               />
+              <Button type="submit" disabled={isSubmiting}>
+                {isSubmiting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    wait
+                  </>
+                ) : (
+                  "Sign Up"
+                )}
+              </Button>
             </form>
           </Form>
         </div>
