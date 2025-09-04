@@ -1,5 +1,12 @@
-const page = () => {
-  return <div>Welcome, to Admin Page Authenticated User.</div>;
-};
+import Navbar from "@/components/manual/navbar"
+import React from "react"
 
-export default page;
+const page = () => {
+  return (
+    <div>
+      <Navbar />
+    </div>
+  )
+}
+
+export default page
