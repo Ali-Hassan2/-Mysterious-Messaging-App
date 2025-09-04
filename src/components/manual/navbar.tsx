@@ -11,12 +11,9 @@ const Navbar = () => {
 
   return (
     <nav className="flex justify-between items-center px-8 py-4 bg-white dark:bg-neutral-900 shadow-md">
-      {/* Left Brand / Heading */}
       <div className="text-2xl font-bold tracking-wide text-gray-900 dark:text-white">
         Anonymous App
       </div>
-
-      {/* Right Side (Session) */}
       <div className="flex items-center gap-4">
         {session ? (
           <>
