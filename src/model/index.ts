@@ -1,2 +1,3 @@
-export * from "./Messages.model";
-export * from "./User.model";
+export * from "./Messages.model"
+export * from "./User.model"
+

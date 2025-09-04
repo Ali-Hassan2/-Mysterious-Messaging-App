@@ -46,7 +46,7 @@ const Page = () => {
         showToast("Login Successfull!", "success");
         setTimeout(() => {
           router.replace("/dashboard");
-        }, 5000);
+        }, 3000);
       } else {
         console.error("Login failed:", response);
         showToast("Login Failed.", "error");
