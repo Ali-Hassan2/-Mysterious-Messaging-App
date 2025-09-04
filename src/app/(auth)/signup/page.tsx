@@ -1,14 +1,14 @@
-"use client";
-import { useRouter } from "next/navigation";
-import * as z from "zod";
-import axios, { AxiosError } from "axios";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
-import { useDebounceCallback } from "usehooks-ts";
-import { showToast } from "@/Utils";
-import { SignupSchema } from "@/schemas";
-import { ApiResponse } from "@/types";
+"use client"
+import { useRouter } from "next/navigation"
+import * as z from "zod"
+import axios, { AxiosError } from "axios"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { useEffect, useState } from "react"
+import { useDebounceCallback } from "usehooks-ts"
+import { showToast } from "@/Utils"
+import { SignupSchema } from "@/schemas"
+import { ApiResponse } from "@/types"
 import {
   Form,
   FormControl,
@@ -17,18 +17,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import Link from "next/link";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
+import Link from "next/link"
 const Page = () => {
-  const [username, setUsername] = useState<string>("");
-  const [isCheckingUsername, setIsCheckingUsername] = useState<boolean>(false);
-  const [usernameMessage, setUsernameMessage] = useState<string>("");
-  const [isSubmiting, setIsSubmiting] = useState<boolean>(false);
-  const debounced = useDebounceCallback(setUsername, 300);
-  const router = useRouter();
+  const [username, setUsername] = useState<string>("")
+  const [isCheckingUsername, setIsCheckingUsername] = useState<boolean>(false)
+  const [usernameMessage, setUsernameMessage] = useState<string>("")
+  const [isSubmiting, setIsSubmiting] = useState<boolean>(false)
+  const debounced = useDebounceCallback(setUsername, 300)
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof SignupSchema>>({
     resolver: zodResolver(SignupSchema),
@@ -37,61 +37,60 @@ const Page = () => {
       email: "",
       password: "",
     },
-  });
+  })
 
   useEffect(() => {
     const checkUsername = async () => {
       if (!username) {
-        setUsernameMessage("");
-        return;
+        setUsernameMessage("")
+        return
       }
 
-      setIsCheckingUsername(true);
-      setUsernameMessage("");
+      setIsCheckingUsername(true)
+      setUsernameMessage("")
 
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 5000);
+      const controller = new AbortController()
+      const timeout = setTimeout(() => controller.abort(), 5000)
 
       try {
         const { data } = await axios.get<ApiResponse>(
           `/api/checkusernameunique?username=${username}`,
           { signal: controller.signal }
-        );
+        )
 
-        setUsernameMessage(data.message);
+        setUsernameMessage(data.message)
       } catch (error) {
-        const axiosError = error as AxiosError<ApiResponse>;
+        const axiosError = error as AxiosError<ApiResponse>
         setUsernameMessage(
           axiosError.response?.data.message ||
             "Error checking username, try again later"
-        );
+        )
       } finally {
-        clearTimeout(timeout);
-        setIsCheckingUsername(false);
+        clearTimeout(timeout)
+        setIsCheckingUsername(false)
       }
-    };
+    }
 
-    checkUsername();
-  }, [username]);
+    checkUsername()
+  }, [username])
 
   const onSubmit = async (data: z.infer<typeof SignupSchema>) => {
     try {
-      setIsSubmiting(true);
-      const response = await axios.post<ApiResponse>("/api/signup", data);
+      setIsSubmiting(true)
+      const response = await axios.post<ApiResponse>("/api/signup", data)
 
-      const message = response.data.message;
-      showToast(message, "success");
-      router.replace(`/verify/${username}`);
-      setIsSubmiting(false);
+      const message = response.data.message
+      showToast(message, "success")
+      router.replace(`/verify/${username}`)
+      setIsSubmiting(false)
     } catch (error) {
-      console.log("The error is:", error);
-      const axiosError = error as AxiosError<ApiResponse>;
-      const err = axiosError.response?.data.message;
-      showToast(err, "error");
-      setIsSubmiting(false);
+      console.log("The error is:", error)
+      const axiosError = error as AxiosError<ApiResponse>
+      const err = axiosError.response?.data.message
+      showToast(err, "error")
+      setIsSubmiting(false)
     }
-  };
-  
+  }
 
   return (
     <>
@@ -119,8 +118,8 @@ const Page = () => {
                           placeholder="Username"
                           {...field}
                           onChange={(e) => {
-                            field.onChange(e);
-                            debounced(e.target.value);
+                            field.onChange(e)
+                            debounced(e.target.value)
                           }}
                         />
                       </FormControl>
@@ -138,7 +137,7 @@ const Page = () => {
                       </p>
                       <FormMessage />
                     </FormItem>
-                  );
+                  )
                 }}
               />
               <FormField
@@ -153,7 +152,7 @@ const Page = () => {
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  );
+                  )
                 }}
               />
               <FormField
@@ -172,7 +171,7 @@ const Page = () => {
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  );
+                  )
                 }}
               />
               <Button type="submit" disabled={isSubmiting}>
@@ -199,7 +198,7 @@ const Page = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page
