@@ -7,6 +7,7 @@ import { Button } from "../ui/button"
 
 const Navbar = () => {
   const { data: session } = useSession()
+  console.log("The session is:", data)
   const user: User = session?.user as User
 
   return (
