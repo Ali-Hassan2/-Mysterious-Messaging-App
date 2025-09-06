@@ -95,6 +95,7 @@ const page = () => {
 
   const handleSwitchChange = async () => {
     const controller = new AbortController()
+    const signal = controller.signal
   }
 
   return (
