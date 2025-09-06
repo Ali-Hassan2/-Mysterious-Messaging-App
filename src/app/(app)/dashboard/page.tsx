@@ -12,7 +12,7 @@ import { showToast } from "@/Utils"
 import { User } from "next-auth"
 
 const page = () => {
-  const [messages, setMessages] = useState < IMessage > []([])
+  const [messages, setMessages] = useState<IMessage[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false)
 
@@ -114,21 +114,19 @@ const page = () => {
     }
   }
 
-  if(!session || !session.user){
+  if (!session || !session.user) {
     return <div>Please Login</div>
   }
 
-  const {username}  = session?.user as User
+  const { username } = session?.user as User
   const baseUrl = `${window.location.protocol}//${window.location.host}`
   const profileUrl = `${baseUrl}/test/${username}`
 
-
-  const copyToClipBoard = ()=>{
+  const copyToClipBoard = () => {
     navigator.clipboard.writeText(profileUrl)
-    showToast("Copied","success")
+    showToast("Copied", "success")
   }
 
-  const baseUrl = 
   return (
     <>
       <div className="w-full h-[90vh] border-4 border-red-600">
@@ -140,8 +138,11 @@ const page = () => {
             Your Messages
           </div>
           <div className="right w-[50vw] h-full flex justify-center items-center">
-            <div className="box h-[4vw] w-[20vw] bg-white/40 p-2 flex items-center justify-between">
-              Your Messages
+            <div className="box h-[4vw] w-[20vw] bg-white/40 p-2  items-center justify-between border-2 flex">
+              <span className="flex-1">Your Messages</span>
+              <div className=" flex-1 border-3 border-red-700 h-full ">
+               
+              </div>
             </div>
           </div>
         </div>
