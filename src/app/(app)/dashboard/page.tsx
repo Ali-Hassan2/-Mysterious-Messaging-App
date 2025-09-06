@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import * as z from "zod"
+import { useSession } from "next-auth/react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { acceptingSchema } from "@/schemas"
@@ -17,7 +18,8 @@ const page = () => {
   const form = useForm({
     resolver: zodResolver(acceptingSchema),
   })
-  const {watch,register}
+  const { data: session } = useSession()
+  const { watch, register }
   return (
     <>
       <div className="w-full h-[90vh] border-4 border-red-600">
