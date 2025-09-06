@@ -1,11 +1,14 @@
 "use client"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import * as z from "zod"
 import { useSession } from "next-auth/react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { acceptingSchema } from "@/schemas"
 import { IMessage } from "@/model"
+import { ApiResponse } from "@/types"
+import { AxiosError } from "axios"
+import { showToast } from "@/Utils"
 
 const page = () => {
   const [messages, setMessages] = useState < IMessage > []([])
@@ -20,6 +23,34 @@ const page = () => {
   })
   const { data: session } = useSession()
   const { watch, register, setValue } = form
+  const acceptMessages = watch("acceptMessages")
+
+  
+  const fetchAcceptingMessages = useCallback(async () => {
+    setIsSwitchLoading(true)
+    try {
+      const response = await axios.get<ApiResponse>("/api/acceptingmessages")
+      setValue("acceptMessages", response.data.isAcceptingMessages)
+    } catch (error) {
+      if (axios.AxiosError(error)) {
+        const err = error as AxiosError<ApiResponse>
+        const error_message = err.response?.data?.message || err.message
+        const toast_error_message =
+          error_message || "Failed to Get Message Settings."
+        showToast(toast_error_message, "error")
+      } else if (error instanceof Error) {
+        console.log(error.message)
+        showToast(error?.message, "error")
+      } else {
+        showToast("Some Unexpected error occured.", "error  ")
+      }
+    } finally {
+      setIsSwitchLoading(false)
+    }
+  }, [setValue])
+
+
+
   return (
     <>
       <div className="w-full h-[90vh] border-4 border-red-600">
