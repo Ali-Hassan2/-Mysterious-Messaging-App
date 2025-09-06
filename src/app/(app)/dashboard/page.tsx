@@ -1,5 +1,5 @@
 "use client"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import * as z from "zod"
 import { useSession } from "next-auth/react"
 import { useForm } from "react-hook-form"
@@ -85,6 +85,10 @@ const page = () => {
     },
     [setIsLoading, setMessages]
   )
+
+  useEffect(()=>{
+
+  },[])
 
   return (
     <>
