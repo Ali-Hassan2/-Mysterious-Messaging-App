@@ -86,9 +86,11 @@ const page = () => {
     [setIsLoading, setMessages]
   )
 
-  useEffect(()=>{
-
-  },[])
+  useEffect(() => {
+    if (!session || !session.user) return
+    fetchMessages()
+    fetchAcceptingMessages()
+  }, [session, setValue, fetchAcceptingMessages, fetchMessages])
 
   return (
     <>
