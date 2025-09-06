@@ -15,9 +15,7 @@ export async function POST(request: Request) {
   }
   await connect_db()
   const userId = (user as any)._id || (user as any).id
-  console.log("The user idd is:", userId)
   const { acceptingmessagesFlag } = await request.json()
-  console.log("The request got.................", acceptingmessagesFlag)
   try {
     const updatedUserWithFlag = await UserModel.findByIdAndUpdate(
       userId,
@@ -41,7 +39,6 @@ export async function POST(request: Request) {
       updatedUserWithFlag,
     })
   } catch (error) {
-    console.log("There is an error", error)
     return Response.json({
       success: false,
       message: "Internal Server error",
@@ -84,6 +81,12 @@ export async function GET(request: Request) {
       isAcceptingMessages: UserExist.isAcceptingMessages,
     })
   } catch (error) {
-    console.log("There is an error", error)
+    return Response.json(
+      {
+        success: false,
+        message: "Internal Server Error",
+      },
+      { status: 500 }
+    )
   }
 }
