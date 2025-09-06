@@ -101,7 +101,9 @@ const page = () => {
       const response = await axios.post<ApiResponse>("/api/acceptingmessages", {
         acceptMessages: checked,
       })
+
       if (response.data.success) {
+        setValue("acceptMessages", checked)
         showToast(
           `Accepting Messages turned ${checked ? "ON" : "OFF"}`,
           "success"
@@ -143,21 +145,10 @@ const page = () => {
           <div className="right w-[50vw] h-full flex justify-center items-center">
             <div className="box h-[4vw] w-[20vw] bg-white/40 p-2  items-center justify-between border-2 flex">
               <div className=" flex-1 border-3 border-red-700 h-full ">
-                <Controller
-                  name="acceptMessages"
-                  control={form.control}
-                  render={({ field }) => (
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={async (checked) => {
-                        setValue("acceptMessages", checked, {
-                          shouldValidate: true,
-                        })
-                        await handleSwitchChange(checked)
-                      }}
-                      disabled={isSwitchLoading}
-                    />
-                  )}
+                <Switch
+                  checked={acceptMessages}
+                  onCheckedChange={(checked) => handleSwitchChange(checked)}
+                  disabled={isSwitchLoading}
                 />
                 <span className="flex-1">
                   Accepting Messages: {acceptMessages ? "on" : "off"}
