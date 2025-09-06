@@ -97,6 +97,7 @@ const page = () => {
     const controller = new AbortController()
     const signal = controller.signal
     const timer = 4000
+    const timeout = 
   }
 
   return (
