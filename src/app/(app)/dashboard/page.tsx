@@ -1,13 +1,13 @@
 "use client"
 import { useCallback, useEffect, useState } from "react"
+import axios, { AxiosError } from "axios"
 import * as z from "zod"
 import { useSession } from "next-auth/react"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { acceptingSchema } from "@/schemas"
 import { IMessage } from "@/model"
 import { ApiResponse } from "@/types"
-import axios, { AxiosError } from "axios"
 import { showToast } from "@/Utils"
 import { User } from "next-auth"
 import { Switch } from "@/components/ui/switch"
@@ -20,7 +20,7 @@ const page = () => {
   const handleDeleteMessagesFromUi = (messageId: string) => {
     setMessages(messages.filter((message) => message._id !== messageId))
   }
-  const form = useForm({
+  const form = useForm<z.infer<typeof acceptingSchema>>({
     resolver: zodResolver(acceptingSchema),
   })
   const { data: session } = useSession()
@@ -101,7 +101,9 @@ const page = () => {
       const response = await axios.post<ApiResponse>("/api/acceptingmessages", {
         acceptMessages: checked,
       })
+
       if (response.data.success) {
+        setValue("acceptMessages", checked)
         showToast(
           `Accepting Messages turned ${checked ? "ON" : "OFF"}`,
           "success"
@@ -143,21 +145,10 @@ const page = () => {
           <div className="right w-[50vw] h-full flex justify-center items-center">
             <div className="box h-[4vw] w-[20vw] bg-white/40 p-2  items-center justify-between border-2 flex">
               <div className=" flex-1 border-3 border-red-700 h-full ">
-                <Controller
-                  name="acceptMessages"
-                  control={form.control}
-                  render={({ field }) => (
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={async (checked) => {
-                        setValue("acceptMessages", checked, {
-                          shouldValidate: true,
-                        })
-                        await handleSwitchChange(checked)
-                      }}
-                      disabled={isSwitchLoading}
-                    />
-                  )}
+                <Switch
+                  checked={acceptMessages}
+                  onCheckedChange={(checked) => handleSwitchChange(checked)}
+                  disabled={isSwitchLoading}
                 />
                 <span className="flex-1">
                   Accepting Messages: {acceptMessages ? "on" : "off"}

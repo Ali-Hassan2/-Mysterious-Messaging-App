@@ -13,17 +13,20 @@ export async function POST(request: Request) {
       message: "User not Authenticated",
     })
   }
-  const userId = user._id
+  await connect_db()
+  const userId = (user as any)._id || (user as any).id
+  console.log("The user idd is:", userId)
   const { acceptingmessagesFlag } = await request.json()
+  console.log("The request got.................", acceptingmessagesFlag)
   try {
-    const updatedUserWithFlag = await findByIdAndUpdate(
+    const updatedUserWithFlag = await UserModel.findByIdAndUpdate(
       userId,
       {
         isAcceptingMessages: acceptingmessagesFlag,
       },
       { new: true }
     )
-    if (updatedUserWithFlag) {
+    if (!updatedUserWithFlag) {
       return Response.json(
         {
           success: false,
