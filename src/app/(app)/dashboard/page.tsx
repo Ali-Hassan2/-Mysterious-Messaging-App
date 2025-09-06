@@ -9,6 +9,7 @@ import { IMessage } from "@/model"
 import { ApiResponse } from "@/types"
 import axios, { AxiosError } from "axios"
 import { showToast } from "@/Utils"
+import { User } from "next-auth"
 
 const page = () => {
   const [messages, setMessages] = useState < IMessage > []([])
@@ -113,6 +114,21 @@ const page = () => {
     }
   }
 
+  if(!session || !session.user){
+    return <div>Please Login</div>
+  }
+
+  const {username}  = session?.user as User
+  const baseUrl = `${window.location.protocol}//${window.location.host}`
+  const profileUrl = `${baseUrl}/test/${username}`
+
+
+  const copyToClipBoard = ()=>{
+    navigator.clipboard.writeText(profileUrl)
+    showToast("Copied","success")
+  }
+
+  const baseUrl = 
   return (
     <>
       <div className="w-full h-[90vh] border-4 border-red-600">
