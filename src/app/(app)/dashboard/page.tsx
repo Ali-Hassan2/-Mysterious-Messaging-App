@@ -58,16 +58,14 @@ const page = () => {
         controller.abort()
       }, timer)
       try {
-        const response = await axios.get<ApiResponse>("/api/getmessages",{
-          signal:signal
-        }
-        )
+        const response = await axios.get<ApiResponse>("/api/getmessages", {
+          signal: signal,
+        })
         clearTimeout(timeout)
-        const messagesFetched = await response.data.data;
+        const messagesFetched = await response.data.data
         if (Array.isArray(messagesFetched)) {
           setMessages(messagesFetched || [])
-        }
-        else{
+        } else {
           throw new Error("Invalid response format.")
         }
       } catch (error) {
@@ -95,8 +93,8 @@ const page = () => {
     fetchAcceptingMessages()
   }, [session, setValue, fetchAcceptingMessages, fetchMessages])
 
-  const handleSwitchChange = async()=>{
-    const controller = 
+  const handleSwitchChange = async () => {
+    const controller = new AbortController()
   }
 
   return (
