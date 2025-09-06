@@ -92,7 +92,9 @@ const page = () => {
     fetchAcceptingMessages()
   }, [session, setValue, fetchAcceptingMessages, fetchMessages])
 
-  const handleSwitchChange = async()
+  const handleSwitchChange = async()=>{
+    
+  }
 
   return (
     <>
