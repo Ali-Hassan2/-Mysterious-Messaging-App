@@ -58,15 +58,17 @@ const page = () => {
         controller.abort()
       }, timer)
       try {
-        const response = await axios.get<ApiResponse>("/api/getmessages")
-        clearTimeout(timeout)
-        if (!response.ok) {
-          const error_Data = await response.json().catch(() => null)
-          throw new Error(error_Data?.message || "Cannot get messages")
+        const response = await axios.get<ApiResponse>("/api/getmessages",{
+          signal:signal
         }
-        const messagesFetched = await response.json()
+        )
+        clearTimeout(timeout)
+        const messagesFetched = await response.data.data;
         if (Array.isArray(messagesFetched)) {
           setMessages(messagesFetched || [])
+        }
+        else{
+          throw new Error("Invalid response format.")
         }
       } catch (error) {
         clearTimeout(timeout)
