@@ -10,12 +10,14 @@ const page = () => {
   const [messages, setMessages] = useState < IMessage > []([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false)
+
   const handleDeleteMessagesFromUi = (messageId: string) => {
-    set
+    setMessages(messages.filter((message) => message._id !== messageId))
   }
   const form = useForm({
     resolver: zodResolver(acceptingSchema),
   })
+  const {watch,register}
   return (
     <>
       <div className="w-full h-[90vh] border-4 border-red-600">
