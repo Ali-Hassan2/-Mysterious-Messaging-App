@@ -1,7 +1,20 @@
 "use client"
 import * as z from "zod"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { acceptingSchema } from "@/schemas"
+import { IMessage } from "@/model"
 
 const page = () => {
+  const [messages, setMessages] = useState < IMessage > []([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const handleDeleteMessagesFromUi = (messageId: string) => {
+    set
+  }
+  const form = useForm({
+    resolver: zodResolver(acceptingSchema),
+  })
   return (
     <>
       <div className="w-full h-[90vh] border-4 border-red-600">
