@@ -94,12 +94,23 @@ const page = () => {
   }, [session, setValue, fetchAcceptingMessages, fetchMessages])
 
   const handleSwitchChange = async () => {
-    const controller = new AbortController()
-    const signal = controller.signal
-    const timer = 4000
-    const timeout = setTimeout(() => {
-      controller.abort()
-    })
+    try {
+      const response = await axios.post<ApiResponse>("/api/acceptingmessages", {
+        acceptMessages: !acceptMessages,
+      })
+      if (response.data.success) {
+        setValue("acceptMessages", !acceptMessages)
+        showToast("Status Updated Successfully", "success")
+      }
+    } catch (error) {
+      if (axios.AxiosError(error)) {
+        const error_data = error as AxiosError<ApiResponse>
+        const error_data_message =
+          error_data.response?.data?.message || error_data.message
+        const toast_error = error_data_message || "Faile to Change status"
+        showToast(toast_error, "error")
+      }
+    }
   }
 
   return (
