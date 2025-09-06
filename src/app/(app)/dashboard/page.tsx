@@ -12,9 +12,10 @@ const page = () => {
             Your Messages
           </div>
           <div className="right w-[50vw] h-full flex justify-center items-center">
-            <div className="box h-[10vw] w-[20vw] bg-blue-200 p-2">
+            <div className="box h-[4vw] w-[20vw] bg-blue-200 p-2 flex items-center justify-betweer">
               Your Messages
             </div>
+            
           </div>
         </div>
       </div>
