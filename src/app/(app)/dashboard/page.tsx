@@ -1,4 +1,5 @@
 "use client"
+import { useState } from "react"
 import * as z from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -8,7 +9,7 @@ import { IMessage } from "@/model"
 const page = () => {
   const [messages, setMessages] = useState < IMessage > []([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
+  const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false)
   const handleDeleteMessagesFromUi = (messageId: string) => {
     set
   }
