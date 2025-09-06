@@ -69,6 +69,7 @@ const page = () => {
           setMessages(messagesFetched || [])
         }
       } catch (error) {
+        clearTimeout(timeout)
         if (axios.AxiosError(error)) {
           const err = error as AxiosError<ApiResponse>
           const error_message = err.response?.data?.message || err.message
