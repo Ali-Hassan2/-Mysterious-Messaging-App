@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { acceptingSchema } from "@/schemas"
 import { IMessage } from "@/model"
 import { ApiResponse } from "@/types"
-import { AxiosError } from "axios"
+import axios, { AxiosError } from "axios"
 import { showToast } from "@/Utils"
 
 const page = () => {
@@ -25,7 +25,6 @@ const page = () => {
   const { watch, register, setValue } = form
   const acceptMessages = watch("acceptMessages")
 
-  
   const fetchAcceptingMessages = useCallback(async () => {
     setIsSwitchLoading(true)
     try {
@@ -49,7 +48,43 @@ const page = () => {
     }
   }, [setValue])
 
-
+  const fetchMessages = useCallback(
+    async ({ refresh: boolean = false }) => {
+      setIsLoading(true)
+      const controller = new AbortController()
+      const signal = controller.signal
+      const timer = 4000
+      const timeout = setTimeout(() => {
+        controller.abort()
+      }, timer)
+      try {
+        const response = await axios.get<ApiResponse>("/api/getmessages")
+        clearTimeout(timeout)
+        if (!response.ok) {
+          const error_Data = await response.json().catch(() => null)
+          throw new Error(error_Data?.message || "Cannot get messages")
+        }
+        const messagesFetched = await response.json()
+        if (Array.isArray(messagesFetched)) {
+          setMessages(messagesFetched || [])
+        }
+      } catch (error) {
+        if (axios.AxiosError(error)) {
+          const err = error as AxiosError<ApiResponse>
+          const error_message = err.response?.data?.message || err.message
+          const error_for_toast = error_message || "Failed to get Messages."
+          showToast(error_for_toast, "error")
+        } else if (error instanceof AxiosError) {
+          showToast(error?.message)
+        } else {
+          showToast("Unexpected error occured.")
+        }
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [setIsLoading, setMessages]
+  )
 
   return (
     <>
