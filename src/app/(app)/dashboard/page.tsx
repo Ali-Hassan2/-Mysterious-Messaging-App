@@ -1,13 +1,13 @@
 "use client"
 import { useCallback, useEffect, useState } from "react"
+import axios, { AxiosError } from "axios"
 import * as z from "zod"
 import { useSession } from "next-auth/react"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { acceptingSchema } from "@/schemas"
 import { IMessage } from "@/model"
 import { ApiResponse } from "@/types"
-import axios, { AxiosError } from "axios"
 import { showToast } from "@/Utils"
 import { User } from "next-auth"
 import { Switch } from "@/components/ui/switch"
@@ -20,7 +20,7 @@ const page = () => {
   const handleDeleteMessagesFromUi = (messageId: string) => {
     setMessages(messages.filter((message) => message._id !== messageId))
   }
-  const form = useForm({
+  const form = useForm<z.infer<typeof acceptingSchema>>({
     resolver: zodResolver(acceptingSchema),
   })
   const { data: session } = useSession()
