@@ -19,7 +19,7 @@ const page = () => {
     resolver: zodResolver(acceptingSchema),
   })
   const { data: session } = useSession()
-  const { watch, register }
+  const { watch, register, setValue } = form
   return (
     <>
       <div className="w-full h-[90vh] border-4 border-red-600">
