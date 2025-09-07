@@ -123,7 +123,6 @@ const page = () => {
     return <div>Please Login</div>
   }
 
-  // I think this method is okay
   const { username } = session?.user as User
   const baseUrl = `${window.location.protocol}//${window.location.host}`
   const profileUrl = `${baseUrl}/test/${username}`
