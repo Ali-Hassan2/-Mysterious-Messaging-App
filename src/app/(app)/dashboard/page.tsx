@@ -157,7 +157,6 @@ const page = () => {
             </div>
           </div>
 
-          {/* {We have to add to sectiosn so the user can copy the unique link and and can se to the next user so he can send the messages} */}
         </div>
       </div>
     </>
