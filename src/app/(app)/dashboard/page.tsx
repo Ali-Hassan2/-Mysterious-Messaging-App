@@ -157,7 +157,7 @@ const page = () => {
             </div>
           </div>
 
-          {/* {} */}
+          {/* {We have to add} */}
         </div>
       </div>
     </>
