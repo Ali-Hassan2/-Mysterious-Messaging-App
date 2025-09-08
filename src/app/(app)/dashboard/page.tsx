@@ -12,6 +12,7 @@ import { showToast } from "@/Utils"
 import { User } from "next-auth"
 import { Switch } from "@/components/ui/switch"
 import { Separator } from "@/components/ui/separator"
+import { MessageCard } from "@/components/manual/message-card"
 
 const page = () => {
   const [messages, setMessages] = useState<IMessage[]>([])
@@ -175,6 +176,19 @@ const page = () => {
           </div>
         </div>
         <Separator />
+        <div className="h-[500px] w-full border-3 border-red-700">
+          {messages.length > 0 ? (
+            messages.map((msg, index) => (
+              <MessageCard
+                key={msg._id}
+                message={message}
+                onMessageDelete={handleDeleteMessagesFromUi}
+              />
+            ))
+          ) : (
+            <p>No messages found</p>
+          )}
+        </div>
       </div>
     </>
   )
