@@ -16,7 +16,7 @@ const page = () => {
   const [messages, setMessages] = useState<IMessage[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false)
-  
+  const [copy, setcopy] = useState<boolean>(false)
 
   const handleDeleteMessagesFromUi = (messageId: string) => {
     setMessages(messages.filter((message) => message._id !== messageId))
@@ -130,6 +130,7 @@ const page = () => {
 
   const copyToClipBoard = () => {
     navigator.clipboard.writeText(profileUrl)
+    setcopy(true)
     showToast("Link Copied", "success")
   }
 
@@ -159,8 +160,15 @@ const page = () => {
           </div>
         </div>
         <div className="h-[100px] w-full border-1 border-blue-700">
-          <div>Your Profile Link is: {profileUrl}</div>
-          <button ></button>
+          <div>
+            Your Profile Link is: {profileUrl}{" "}
+            <button
+              onClick={copyToClipBoard}
+              className="bg-blue-500 cursor-pointer"
+            >
+              {copy ? "Copied" : "Copy"}
+            </button>
+          </div>
         </div>
       </div>
     </>
