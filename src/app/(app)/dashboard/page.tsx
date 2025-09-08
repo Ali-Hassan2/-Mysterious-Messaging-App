@@ -11,6 +11,7 @@ import { ApiResponse } from "@/types"
 import { showToast } from "@/Utils"
 import { User } from "next-auth"
 import { Switch } from "@/components/ui/switch"
+import { Separator } from "@/components/ui/separator"
 
 const page = () => {
   const [messages, setMessages] = useState<IMessage[]>([])
@@ -173,6 +174,7 @@ const page = () => {
             </button>
           </div>
         </div>
+        <Separator />
       </div>
     </>
   )
