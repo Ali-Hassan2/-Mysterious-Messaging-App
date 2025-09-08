@@ -13,6 +13,7 @@ import { User } from "next-auth";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { MessageCard } from "@/components/manual/message-card";
+import { Check, Copy } from "lucide-react";
 
 const page = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -167,14 +168,15 @@ const page = () => {
           </div>
         </div>
         <div className="h-[100px] w-full border-1 border-blue-700">
-          <div>
+          <div className="border-1 border-black flex justify-items-start items-center gap-[10px]">
             Your Profile Link is: {profileUrl}{" "}
-            <button
-              onClick={copyToClipBoard}
-              className="bg-blue-500 cursor-pointer"
-            >
-              {copy ? "Copied" : "Copy"}
-            </button>
+            {copy ? (
+              <>
+                <Check /> Copied
+              </>
+            ) : (
+              <Copy onClick={copyToClipBoard} className="cursor-pointer" />
+            )}
           </div>
         </div>
         <Separator />
