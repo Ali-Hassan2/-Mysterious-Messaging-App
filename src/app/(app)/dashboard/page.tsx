@@ -1,143 +1,145 @@
-"use client"
-import { useCallback, useEffect, useState } from "react"
-import axios, { AxiosError } from "axios"
-import * as z from "zod"
-import { useSession } from "next-auth/react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { acceptingSchema } from "@/schemas"
-import { IMessage } from "@/model"
-import { ApiResponse } from "@/types"
-import { showToast } from "@/Utils"
-import { User } from "next-auth"
-import { Switch } from "@/components/ui/switch"
-import { Separator } from "@/components/ui/separator"
-import { MessageCard } from "@/components/manual/message-card"
+"use client";
+import { useCallback, useEffect, useState } from "react";
+import axios, { AxiosError } from "axios";
+import * as z from "zod";
+import { useSession } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { acceptingSchema } from "@/schemas";
+import { IMessage } from "@/model";
+import { ApiResponse } from "@/types";
+import { showToast } from "@/Utils";
+import { User } from "next-auth";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
+import { MessageCard } from "@/components/manual/message-card";
 
 const page = () => {
-  const [messages, setMessages] = useState<IMessage[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false)
-  const [copy, setcopy] = useState<boolean>(false)
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false);
+  const [copy, setcopy] = useState<boolean>(false);
 
   const handleDeleteMessagesFromUi = (messageId: string) => {
-    setMessages(messages.filter((message) => message._id !== messageId))
-  }
+    setMessages(messages.filter((message) => message._id !== messageId));
+  };
   const form = useForm<z.infer<typeof acceptingSchema>>({
     resolver: zodResolver(acceptingSchema),
-  })
-  const { data: session } = useSession()
-  const { watch, register, setValue } = form
-  const acceptMessages = watch("acceptMessages")
+  });
+  const { data: session } = useSession();
+  const { watch, register, setValue } = form;
+  const acceptMessages = watch("acceptMessages");
 
   const fetchAcceptingMessages = useCallback(async () => {
-    setIsSwitchLoading(true)
+    setIsSwitchLoading(true);
     try {
-      const response = await axios.get<ApiResponse>("/api/acceptingmessages")
-      setValue("acceptMessages", response.data.isAcceptingMessages)
-      console.log(response.data.isAcceptingMessages)
+      const response = await axios.get<ApiResponse>("/api/acceptingmessages");
+      setValue("acceptMessages", response.data.isAcceptingMessages);
+      console.log(response.data.isAcceptingMessages);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        const err = error as AxiosError<ApiResponse>
-        const error_message = err.response?.data?.message || err.message
+        const err = error as AxiosError<ApiResponse>;
+        const error_message = err.response?.data?.message || err.message;
         const toast_error_message =
-          error_message || "Failed to Get Message Settings."
-        showToast(toast_error_message, "error")
+          error_message || "Failed to Get Message Settings.";
+        showToast(toast_error_message, "error");
       } else if (error instanceof Error) {
-        console.log(error.message)
-        showToast(error?.message, "error")
+        console.log(error.message);
+        showToast(error?.message, "error");
       } else {
-        showToast("Some Unexpected error occured.", "error  ")
+        showToast("Some Unexpected error occured.", "error  ");
       }
     } finally {
-      setIsSwitchLoading(false)
+      setIsSwitchLoading(false);
     }
-  }, [setValue])
+  }, [setValue]);
 
   const fetchMessages = useCallback(async () => {
-    setIsLoading(true)
-    const controller = new AbortController()
-    const signal = controller.signal
-    const timer = 4000
+    setIsLoading(true);
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const timer = 4000;
     const timeout = setTimeout(() => {
-      controller.abort()
-    }, timer)
+      controller.abort();
+    }, timer);
     try {
       const response = await axios.get<ApiResponse>("/api/getmessages", {
         signal: signal,
-      })
-      clearTimeout(timeout)
-      console.log("The respoonse is:", response)
-      const messagesFetched = await response.data.messages
-      console.log("The messages ", messagesFetched)
+      });
+      console.log(response);
+      console.log("Mei nhi chl pa rha hu yar ali");
+      clearTimeout(timeout);
+      console.log("The respoonse is:", response.data);
+      const messagesFetched = await response.data.messages;
+      console.log("The messages ", messagesFetched);
       if (Array.isArray(messagesFetched)) {
-        setMessages(messagesFetched || [])
+        setMessages(messagesFetched || []);
       } else {
-        throw new Error("Invalid response format.")
+        throw new Error("Invalid response format.");
       }
     } catch (error) {
-      clearTimeout(timeout)
+      clearTimeout(timeout);
       if (axios.isAxiosError(error)) {
-        const err = error as AxiosError<ApiResponse>
-        const error_message = err.response?.data?.message || err.message
-        const error_for_toast = error_message || "Failed to get Messages."
-        showToast(error_for_toast, "error")
+        const err = error as AxiosError<ApiResponse>;
+        const error_message = err.response?.data?.message || err.message;
+        const error_for_toast = error_message || "Failed to get Messages.";
+        showToast(error_for_toast, "error");
       } else if (error instanceof AxiosError) {
-        showToast(error?.message)
+        showToast(error?.message);
       } else {
-        showToast("Unexpected error occured.")
+        showToast("Unexpected error occured.");
       }
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [setIsLoading, setMessages])
+  }, [setIsLoading, setMessages]);
 
   useEffect(() => {
-    if (!session || !session.user) return
-    console.log("Mei tw chl rha hu ")
-    fetchMessages()
-    fetchAcceptingMessages()
-  }, [session, setValue, fetchAcceptingMessages, fetchMessages])
+    if (!session || !session.user) return;
+    console.log("Mei tw chl rha hu ");
+    fetchMessages();
+    fetchAcceptingMessages();
+  }, [session, setValue, fetchAcceptingMessages, fetchMessages]);
 
   const handleSwitchChange = async (checked: boolean) => {
     try {
       const response = await axios.post<ApiResponse>("/api/acceptingmessages", {
         acceptMessages: checked,
-      })
+      });
 
       if (response.data.success) {
-        setValue("acceptMessages", checked)
+        setValue("acceptMessages", checked);
         showToast(
           `Accepting Messages turned ${checked ? "ON" : "OFF"}`,
           "success"
-        )
+        );
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         showToast(
           error.response?.data?.message || "Failed to Change status",
           "error"
-        )
+        );
       }
     }
-  }
+  };
 
   if (!session || !session.user) {
-    return <div>Please Login</div>
+    return <div>Please Login</div>;
   }
 
-  const { username } = session?.user as User
-  const baseUrl = `${window.location.protocol}//${window.location.host}`
-  const profileUrl = `${baseUrl}/test/${username}`
+  const { username } = session?.user as User;
+  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  const profileUrl = `${baseUrl}/test/${username}`;
 
   const copyToClipBoard = () => {
-    navigator.clipboard.writeText(profileUrl)
-    setcopy(true)
-    showToast("Link Copied", "success")
+    navigator.clipboard.writeText(profileUrl);
+    setcopy(true);
+    showToast("Link Copied", "success");
     setTimeout(() => {
-      setcopy(false)
-    }, 2000)
-  }
+      setcopy(false);
+    }, 2000);
+  };
 
   return (
     <>
@@ -191,7 +193,7 @@ const page = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;
