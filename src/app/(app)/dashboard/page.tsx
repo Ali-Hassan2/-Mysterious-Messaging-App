@@ -129,7 +129,7 @@ const page = () => {
 
   const copyToClipBoard = () => {
     navigator.clipboard.writeText(profileUrl)
-    showToast("Copied", "success")
+    showToast("LinkCopied", "success")
   }
 
   return (
@@ -149,7 +149,7 @@ const page = () => {
                   checked={acceptMessages}
                   onCheckedChange={(checked) => handleSwitchChange(checked)}
                   disabled={isSwitchLoading}
-                />
+                />w
                 <span className="flex-1">
                   Accepting Messages: {acceptMessages ? "on" : "off"}
                 </span>
