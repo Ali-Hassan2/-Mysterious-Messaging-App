@@ -54,47 +54,47 @@ const page = () => {
     }
   }, [setValue])
 
-  const fetchMessages = useCallback(
-    async ({ refresh = false }: { refresh?: boolean }) => {
-      setIsLoading(true)
-      const controller = new AbortController()
-      const signal = controller.signal
-      const timer = 4000
-      const timeout = setTimeout(() => {
-        controller.abort()
-      }, timer)
-      try {
-        const response = await axios.get<ApiResponse>("/api/getmessages", {
-          signal: signal,
-        })
-        clearTimeout(timeout)
-        const messagesFetched = await response.data.data
-        if (Array.isArray(messagesFetched)) {
-          setMessages(messagesFetched || [])
-        } else {
-          throw new Error("Invalid response format.")
-        }
-      } catch (error) {
-        clearTimeout(timeout)
-        if (axios.isAxiosError(error)) {
-          const err = error as AxiosError<ApiResponse>
-          const error_message = err.response?.data?.message || err.message
-          const error_for_toast = error_message || "Failed to get Messages."
-          showToast(error_for_toast, "error")
-        } else if (error instanceof AxiosError) {
-          showToast(error?.message)
-        } else {
-          showToast("Unexpected error occured.")
-        }
-      } finally {
-        setIsLoading(false)
+  const fetchMessages = useCallback(async () => {
+    setIsLoading(true)
+    const controller = new AbortController()
+    const signal = controller.signal
+    const timer = 4000
+    const timeout = setTimeout(() => {
+      controller.abort()
+    }, timer)
+    try {
+      const response = await axios.get<ApiResponse>("/api/getmessages", {
+        signal: signal,
+      })
+      clearTimeout(timeout)
+      console.log("The respoonse is:", response)
+      const messagesFetched = await response.data.messages
+      console.log("The messages ", messagesFetched)
+      if (Array.isArray(messagesFetched)) {
+        setMessages(messagesFetched || [])
+      } else {
+        throw new Error("Invalid response format.")
       }
-    },
-    [setIsLoading, setMessages]
-  )
+    } catch (error) {
+      clearTimeout(timeout)
+      if (axios.isAxiosError(error)) {
+        const err = error as AxiosError<ApiResponse>
+        const error_message = err.response?.data?.message || err.message
+        const error_for_toast = error_message || "Failed to get Messages."
+        showToast(error_for_toast, "error")
+      } else if (error instanceof AxiosError) {
+        showToast(error?.message)
+      } else {
+        showToast("Unexpected error occured.")
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }, [setIsLoading, setMessages])
 
   useEffect(() => {
     if (!session || !session.user) return
+    console.log("Mei tw chl rha hu ")
     fetchMessages()
     fetchAcceptingMessages()
   }, [session, setValue, fetchAcceptingMessages, fetchMessages])
@@ -178,10 +178,10 @@ const page = () => {
         <Separator />
         <div className="h-[500px] w-full border-3 border-red-700">
           {messages.length > 0 ? (
-            messages.map((msg, index) => (
+            messages.map((msg) => (
               <MessageCard
                 key={msg._id}
-                message={message}
+                message={msg}
                 onMessageDelete={handleDeleteMessagesFromUi}
               />
             ))
