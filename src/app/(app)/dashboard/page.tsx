@@ -132,6 +132,9 @@ const page = () => {
     navigator.clipboard.writeText(profileUrl)
     setcopy(true)
     showToast("Link Copied", "success")
+    setTimeout(() => {
+      setcopy(false)
+    }, 2000)
   }
 
   return (
