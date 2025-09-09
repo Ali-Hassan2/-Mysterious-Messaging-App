@@ -190,6 +190,7 @@ const page = () => {
               />
             ))
           ) : (
+            
             <p>No messages found</p>
           )}
         </div>
