@@ -1,14 +1,14 @@
-import Image from "next/image";
+import Image from "next/image"
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-react";
+} from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-react"
 
 export default function Home() {
   return (
@@ -43,7 +43,7 @@ export default function Home() {
                   </div>
                 </CarouselItem>
               ))}
-              {/* Courousal  */}
+              {/* Courousal  autoply is pedning to fix */}
             </CarouselContent>
             <CarouselPrevious />
             <CarouselNext />
@@ -51,5 +51,5 @@ export default function Home() {
         </main>
       </div>
     </>
-  );
+  )
 }
