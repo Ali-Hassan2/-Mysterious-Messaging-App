@@ -20,7 +20,6 @@ export default function Home() {
             See who want to text you and what they think about you
           </p>
         </div>
-
         <main>
           <Carousel
             plugins={[Autoplay({ delay: 2000 })]}
