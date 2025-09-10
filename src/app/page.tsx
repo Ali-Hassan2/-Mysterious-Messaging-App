@@ -44,6 +44,7 @@ export default function Home() {
                 </CarouselItem>
               ))}
               {/* Courousal  autoply is pedning to fix */}
+              {/* {} */}
             </CarouselContent>
             <CarouselPrevious />
             <CarouselNext />
