@@ -43,7 +43,7 @@ export default function Home() {
                   </div>
                 </CarouselItem>
               ))}
-              {/*  */}
+              {/* Courousal  */}
             </CarouselContent>
             <CarouselPrevious />
             <CarouselNext />
