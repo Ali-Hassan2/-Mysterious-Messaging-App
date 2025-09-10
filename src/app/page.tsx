@@ -44,7 +44,7 @@ export default function Home() {
                 </CarouselItem>
               ))}
               {/* Courousal  autoply is pedning to fix */}
-              {/* {add} */}
+              {/* {add custom messages} */}
             </CarouselContent>
             <CarouselPrevious />
             <CarouselNext />
