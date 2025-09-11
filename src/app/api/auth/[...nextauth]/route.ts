@@ -5,4 +5,4 @@ const handler = NextAuth(authOptions);
 
 export {handler as GET , handler as POST}
 
-// its going worst
+// its going worst ever bro please help in
