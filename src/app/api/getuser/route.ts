@@ -11,27 +11,27 @@ export async function GET(request: Request) {
   if (request.method !== "GET") {
     return Response.json({
       success: false,
-      message: "Mehod Not allowed.",
+      message: "Method Not Allowed.",
     })
   }
+
   await connect_db()
   const { searchParams } = new URL(request.url)
-  const queryParams = {
-    username: searchParams.get("username"),
+  const queryParms = {
+    username: searchParams.get("username") ?? "",
   }
 
-  const result = UsernameQuerySchema.safeParse(queryParams)
+  const result = UsernameQuerySchema.safeParse(queryParms)
   console.log("The result is:", result)
   if (!result.success) {
     const usernameErrors = result.error.format().username?._errors || []
-
     return Response.json(
       {
         success: false,
         message:
           usernameErrors?.length > 0
             ? usernameErrors?.join(", ")
-            : "Invalid query params",
+            : "invalid query Params",
       },
       {
         status: 400,
@@ -40,38 +40,35 @@ export async function GET(request: Request) {
   }
   try {
     const { username } = result.data
-    const existingVerifiedUser = await UserModel.findOne({
+    const isUsernameExist = await UserModel.findOne({
       username,
       isVerified: true,
     })
-    if (existingVerifiedUser) {
+    if (!isUsernameExist) {
       return Response.json(
         {
           success: false,
-          message: "Username already taken",
+          message: "No user found with this username",
         },
         {
-          status: 400,
+          status: 404,
         }
       )
     }
     return Response.json(
       {
         success: true,
-        message: "Username is unique",
       },
       {
         status: 200,
       }
     )
   } catch (error) {
-    console.log("Error while checking username", error)
-    return Response.json(
-      {
-        success: false,
-        message: "Error checking username",
-      },
-      { status: 500 }
-    )
+    const error_message =
+      error instanceof Error ? error?.message : "Unexpected Error occured."
+    return Response.json({
+      success: false,
+      message: error_message,
+    })
   }
 }
