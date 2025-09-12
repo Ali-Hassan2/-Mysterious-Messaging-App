@@ -1,5 +1,5 @@
+"use client"
 import Image from "next/image"
-
 import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
@@ -8,9 +8,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import Autoplay from "embla-carousel-react"
-
+import Autoplay from "embla-carousel-autoplay"
+import { useEffect, useRef } from "react"
 export default function Home() {
+  const autoplay = Autoplay({ delay: 2000, stopOnInteraction: false })
   return (
     <>
       <div className="font-sans flex flex-col items-center min-h-screen pb-20 gap-16 border-2 border-red-700">
@@ -22,7 +23,7 @@ export default function Home() {
         </div>
         <main>
           <Carousel
-            plugins={[Autoplay({ delay: 2000 })]}
+            plugins={[autoplay]}
             opts={{
               align: "start",
             }}
