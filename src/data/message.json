@@ -1,6 +1,22 @@
 [
   {
     "title": "Title One",
-    "message": "This is the First Coursel message"
+    "message": "This is the first carousel message"
+  },
+  {
+    "title": "Title Two",
+    "message": "You have a secret admirer watching you!"
+  },
+  {
+    "title": "Title Three",
+    "message": "Someone thinks your ideas are really inspiring"
+  },
+  {
+    "title": "Title Four",
+    "message": "A friend wants to tell you something nice"
+  },
+  {
+    "title": "Title Five",
+    "message": "Keep smiling, someone appreciates your energy"
   }
 ]
