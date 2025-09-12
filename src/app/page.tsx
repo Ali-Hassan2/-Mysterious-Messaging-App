@@ -1,6 +1,8 @@
 "use client"
+import { useEffect, useRef } from "react"
 import Image from "next/image"
-import { Card, CardContent } from "@/components/ui/card"
+import Autoplay from "embla-carousel-autoplay"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
@@ -8,8 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import Autoplay from "embla-carousel-autoplay"
-import { useEffect, useRef } from "react"
+import messages from "../data/message.json"
 export default function Home() {
   const autoplay = Autoplay({ delay: 2000, stopOnInteraction: false })
   return (
@@ -28,22 +29,27 @@ export default function Home() {
               align: "start",
             }}
             orientation="vertical"
-            className="w-full max-w-xs"
+            className="w-full max-w-md h-[200px]"
           >
-            <CarouselContent className="-mt-1 h-[200px]">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <CarouselItem key={index} className="pt-1 md:basis-1/2">
-                  <div className="p-1">
-                    <Card>
-                      <CardContent className="flex items-center justify-center p-6">
-                        <span className="text-3xl font-semibold">
-                          {index + 1}
-                        </span>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-              ))}
+            <CarouselContent className="-mt-1 w-md h-[200px]">
+              {messages.map((message, index) => {
+                return (
+                  <>
+                    <CardHeader>{message.title}</CardHeader>
+                    <CarouselItem key={index} className="pt-1 md:basis-1/2">
+                      <div className="p-1">
+                        <Card>
+                          <CardContent className="flex items-center justify-center p-6">
+                            <span className="text-3xl font-semibold">
+                              {message.message}
+                            </span>
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </CarouselItem>
+                  </>
+                )
+              })}
             </CarouselContent>
             <CarouselPrevious />
             <CarouselNext />
