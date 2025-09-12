@@ -31,6 +31,7 @@ export default function Home() {
             orientation="vertical"
             className="w-full max-w-md h-[200px]"
           >
+            
             <CarouselContent className="-mt-1 w-md h-[200px]">
               {messages.map((message, index) => {
                 return (
