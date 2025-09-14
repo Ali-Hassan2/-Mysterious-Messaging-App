@@ -40,6 +40,7 @@ const Page = () => {
       form.setValue("identifier", savedPerson)
       form.setValue("remeberMe", false)
     }
+    
   }, [form])
 
   const onSubmit = async (data: z.infer<typeof signinSchema>) => {
