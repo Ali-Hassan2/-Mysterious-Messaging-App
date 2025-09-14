@@ -2,17 +2,21 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { useSearchParams } from "next/navigation"
-import { Form, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { messageSchema } from "@/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
+  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
+import { showToast } from "@/Utils"
 const Page = () => {
   const searchParams = useSearchParams()
   const username = searchParams.get("username")
@@ -23,7 +27,7 @@ const Page = () => {
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
     defaultValues: {
-      message: "",
+      content: "",
     },
   })
 
@@ -48,7 +52,14 @@ const Page = () => {
     }
   }
 
-  const onSubmit = async (data: z.infer<typeof messageSchema>) => {}
+  const onSubmit = async (data: z.infer<typeof messageSchema>) => {
+    console.log("The message is:", data.content)
+    setMessageStatus(true)
+    setTimeout(() => {
+      setMessageStatus(false)
+    }, 1000)
+    showToast("Message sent successfully", "success")
+  }
 
   useEffect(() => {
     checkUser()
@@ -64,9 +75,9 @@ const Page = () => {
       </section>
       <section className="mid">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onsubmit)}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormField
-              name="email"
+              name="content"
               control={form.control}
               render={({ field }) => {
                 return (
@@ -83,6 +94,15 @@ const Page = () => {
                 )
               }}
             />
+            <Button type="submit" disabled={messageStatus}>
+              {messageStatus ? (
+                <>
+                  <Loader2 className="animate-spin mr-2 h-4 w-4" /> Sending
+                </>
+              ) : (
+                "Send"
+              )}
+            </Button>
           </form>
         </Form>
       </section>
