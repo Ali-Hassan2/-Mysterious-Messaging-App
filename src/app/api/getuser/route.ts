@@ -51,7 +51,7 @@ export async function GET(request: Request) {
           message: "No user found with this username",
         },
         {
-          status: 404,
+          status: 202,
         }
       )
     }
