@@ -84,7 +84,7 @@ const Page = () => {
       const message = response.data
       if (message.success) {
         showToast("Message sent successfully", "success")
-        form.reset() // optional: clear the input after sending
+        form.reset()
       } else {
         showToast(message.message || "Cannot send the message", "error")
       }
@@ -95,7 +95,6 @@ const Page = () => {
       setMessageStatus(false)
     }
   }
-
   if (isAuthenticated === null) return <p>Loading page....</p>
   if (isAuthenticated === false) return <p>{error}</p>
 
