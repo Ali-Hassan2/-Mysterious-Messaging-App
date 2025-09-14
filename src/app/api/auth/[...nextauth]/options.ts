@@ -25,10 +25,10 @@ const authOptions: NextAuthOptions = {
         console.log("User found jani", user)
         if (!user) {
           console.log("User not found..")
-          return null // 401
+          return null
         }
         if (!user.isVerified) {
-          return null // 401
+          return null
         }
 
         const isCorrectPassword = await bcrypt.compare(
@@ -37,10 +37,10 @@ const authOptions: NextAuthOptions = {
         )
         console.log("Password match:", isCorrectPassword)
         if (!isCorrectPassword) {
-          return null // 401
+          return null
         }
 
-        return user // success
+        return user
       },
     }),
   ],
