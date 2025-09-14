@@ -1,17 +1,17 @@
-import { z } from "zod";
-
+import { z } from "zod"
 const contentValidation = z
   .string()
-  .min(1, { message: "Message should atleast have one character." })
-  .max(500, { message: "Message should can have 500 characters." });
+  .min(1, { message: "Message should be atleast one characher long." })
+  .max(500, { message: "Message can be 500 characters long." })
+
 const createdatValidation = z
   .date()
   .optional()
-  .default(() => new Date());
+  .default(() => new Date())
 
 const messageSchema = z.object({
   content: contentValidation,
-  createdat: createdatValidation,
-});
+  createdar: createdatValidation,
+})
 
-export { messageSchema };
+export { messageSchema }
