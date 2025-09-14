@@ -40,7 +40,6 @@ const Page = () => {
       form.setValue("identifier", savedPerson)
       form.setValue("remeberMe", false)
     }
-
   }, [form])
 
   const onSubmit = async (data: z.infer<typeof signinSchema>) => {
@@ -68,7 +67,6 @@ const Page = () => {
         showToast("Login Failed.", "error")
         setSigningIn(false)
       }
-      
     } catch (error: any) {
       if (error instanceof Error) {
         showToast(error?.message || "Something went Wrong. Try Again later.")
