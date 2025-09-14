@@ -1,8 +1,8 @@
-import { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
-import { UserModel } from "@/model";
-import { connect_db } from "@/lib";
+import { NextAuthOptions } from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
+import bcrypt from "bcryptjs"
+import { UserModel } from "@/model"
+import { connect_db } from "@/lib"
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -13,57 +13,55 @@ const authOptions: NextAuthOptions = {
         identifier: { label: "Email or Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: any): Promise<any> {
-        await connect_db();
-        try {
-          const user = await UserModel.findOne({
-            $or: [
-              { email: credentials.identifier },
-              { username: credentials.identifier },
-            ],
-          });
-
-          if (!user) {
-            throw new Error("No user found with this email/username");
-          }
-          if (!user.isVerified) {
-            throw new Error("Please verify your account first.");
-          }
-
-          const isCorrectPassword = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
-
-          if (isCorrectPassword) {
-            return user;
-          } else {
-            throw new Error("Incorrect password.");
-          }
-        } catch (error) {
-          throw new Error("Login failed. Please try again.");
+      async authorize(credentials: any) {
+        console.log("The credentials we receive are:", { credentials })
+        await connect_db()
+        const user = await UserModel.findOne({
+          $or: [
+            { email: credentials.identifier },
+            { username: credentials.identifier },
+          ],
+        })
+        console.log("User found jani", user)
+        if (!user) {
+          console.log("User not found..")
+          return null // 401
         }
+        if (!user.isVerified) {
+          return null // 401
+        }
+
+        const isCorrectPassword = await bcrypt.compare(
+          credentials.password,
+          user.password
+        )
+        console.log("Password match:", isCorrectPassword)
+        if (!isCorrectPassword) {
+          return null // 401
+        }
+
+        return user // success
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token._id = user._id.toString();
-        token.isVerified = user.isVerified;
-        token.isAcceptingMessages = user.isAcceptingMessages;
-        token.username = user.username;
+        token._id = user._id.toString()
+        token.isVerified = user.isVerified
+        token.isAcceptingMessages = user.isAcceptingMessages
+        token.username = user.username
       }
-      return token;
+      return token
     },
     async session({ session, token }) {
       if (token) {
-        session.user._id = token._id;
-        session.user.username = token.username;
-        session.user.isAcceptingMessages = token.isAcceptingMessages;
-        session.user.isVerified = token.isVerified;
+        session.user._id = token._id
+        session.user.username = token.username
+        session.user.isAcceptingMessages = token.isAcceptingMessages
+        session.user.isVerified = token.isVerified
       }
-      return session;
+      return session
     },
   },
   session: {
@@ -73,6 +71,6 @@ const authOptions: NextAuthOptions = {
     signIn: "/signin",
   },
   secret: process.env.NEXT_AUTH_SECRET,
-};
+}
 
-export { authOptions };
+export { authOptions }

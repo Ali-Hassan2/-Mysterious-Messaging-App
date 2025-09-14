@@ -17,11 +17,13 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { showToast } from "@/Utils"
+import { ApiResponse } from "@/types"
 const Page = () => {
   const searchParams = useSearchParams()
   const username = searchParams.get("username")
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
   const [messageStatus, setMessageStatus] = useState(false)
+  const [currentUsername, setCurrentUsername] = useState<string | null>(null)
   const [error, setError] = useState<string>("")
 
   const form = useForm<z.infer<typeof messageSchema>>({
@@ -51,19 +53,48 @@ const Page = () => {
       setError("Something went wrong")
     }
   }
+  useEffect(() => {
+    if (username) {
+      setCurrentUsername(username)
+    }
+    checkUser()
+  }, [username])
+
+  if (!username) return <p>Loading username...</p>
+
+  console.log("The usernameeeeeeeeeeee is:", username)
+  console.log("The usernameeeeeeeeeeee issss:", currentUsername)
 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     console.log("The message is:", data.content)
     setMessageStatus(true)
-    setTimeout(() => {
-      setMessageStatus(false)
-    }, 1000)
-    showToast("Message sent successfully", "success")
-  }
 
-  useEffect(() => {
-    checkUser()
-  }, [username])
+    try {
+      const payload = {
+        ...data,
+        username: currentUsername,
+      }
+      console.log("The username is:", currentUsername)
+      const response = await axios.post<ApiResponse>(
+        "/api/sendmessages",
+        payload
+      )
+      console.log("The data is:", response)
+
+      const message = response.data
+      if (message.success) {
+        showToast("Message sent successfully", "success")
+        form.reset() // optional: clear the input after sending
+      } else {
+        showToast(message.message || "Cannot send the message", "error")
+      }
+    } catch (error) {
+      console.log("There is an error", error)
+      showToast("An unexpected error occurred.", "error")
+    } finally {
+      setMessageStatus(false)
+    }
+  }
 
   if (isAuthenticated === null) return <p>Loading page....</p>
   if (isAuthenticated === false) return <p>{error}</p>
