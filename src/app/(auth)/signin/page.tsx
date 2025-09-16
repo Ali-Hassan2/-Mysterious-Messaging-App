@@ -67,7 +67,7 @@ const Page = () => {
         showToast("Login Failed.", "error")
         setSigningIn(false)
       }
-      // TODO: NEXT JOB
+      // TODO: NEXT
     } catch (error: any) {
       if (error instanceof Error) {
         showToast(error?.message || "Something went Wrong. Try Again later.")
