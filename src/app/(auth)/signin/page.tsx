@@ -63,7 +63,7 @@ const Page = () => {
           router.replace("/dashboard")
         }, 3000)
       } else {
-        console.error("Login failed bhai:", response?.error)
+        console.error("Login failed:", response?.error)
         showToast("Login Failed.", "error")
         setSigningIn(false)
       }
@@ -73,7 +73,6 @@ const Page = () => {
       } else {
         showToast("An Unexpected Error occured.")
       }
-      //  need to complete card data printing
     } finally {
       setSigningIn(false)
     }
