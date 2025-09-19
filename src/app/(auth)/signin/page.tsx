@@ -73,7 +73,7 @@ const Page = () => {
       } else {
         showToast("An Unexpected Error occured.")
       }
-      //  need to complete card data 
+      //  need to complete card data printing
     } finally {
       setSigningIn(false)
     }
