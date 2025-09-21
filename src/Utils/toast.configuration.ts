@@ -3,7 +3,7 @@ import { ToastOptions } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 const defaultOptions: ToastOptions = {
   position: "top-right",
-  autoClose: true,
+  autoClose: 1,
   hideProgressBar: true,
   closeOnClick: true,
   pauseOnHover: true,
@@ -15,6 +15,7 @@ const showToast = (
   message: string,
   type: "success" | "error" | "info" | "warning" = "info"
 ) => {
+  
   const customStyle = {
     backgroundColor: "#111",
     color: "white",
