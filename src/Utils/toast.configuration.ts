@@ -15,7 +15,6 @@ const showToast = (
   message: string,
   type: "success" | "error" | "info" | "warning" = "info"
 ) => {
-  
   const customStyle = {
     backgroundColor: "#111",
     color: "white",
@@ -24,7 +23,6 @@ const showToast = (
     borderRadius: "15px",
   }
 
-  
   switch (type) {
     case "success":
       toast.success(message, { ...defaultOptions, style: customStyle })
