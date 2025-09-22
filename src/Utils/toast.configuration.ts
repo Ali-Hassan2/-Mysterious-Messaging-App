@@ -22,6 +22,7 @@ const showToast = (
     fontSize: "14px",
     borderRadius: "15px",
   }
+  
   switch (type) {
     case "success":
       toast.success(message, { ...defaultOptions, style: customStyle })
