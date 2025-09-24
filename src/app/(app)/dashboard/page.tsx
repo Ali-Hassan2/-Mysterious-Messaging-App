@@ -25,7 +25,7 @@ const page = () => {
   const handleDeleteMessagesFromUi = (messageId: string) => {
     setMessages(messages.filter((message) => message._id !== messageId))
   }
-  // TODO:check warnings
+  // TODO:check warnings and lint plans
   const form = useForm<z.infer<typeof acceptingSchema>>({
     resolver: zodResolver(acceptingSchema),
   })
