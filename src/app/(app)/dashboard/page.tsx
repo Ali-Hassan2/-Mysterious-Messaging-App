@@ -16,7 +16,7 @@ import { MessageCard } from "@/components/manual/message-card"
 import { Check, Copy } from "lucide-react"
 
 const page = () => {
-  
+
   const [messages, setMessages] = useState<IMessage[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false)
@@ -25,6 +25,7 @@ const page = () => {
   const handleDeleteMessagesFromUi = (messageId: string) => {
     setMessages(messages.filter((message) => message._id !== messageId))
   }
+  // TODO:check warnings
   const form = useForm<z.infer<typeof acceptingSchema>>({
     resolver: zodResolver(acceptingSchema),
   })
