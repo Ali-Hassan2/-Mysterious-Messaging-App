@@ -16,7 +16,6 @@ import { MessageCard } from "@/components/manual/message-card"
 import { Check, Copy } from "lucide-react"
 
 const page = () => {
-  
   const [messages, setMessages] = useState<IMessage[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false)
