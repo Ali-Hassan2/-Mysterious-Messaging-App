@@ -60,6 +60,7 @@ const page = () => {
 
   const fetchMessages = useCallback(async () => {
     setIsLoading(true)
+    
     const controller = new AbortController()
     const signal = controller.signal
     const timer = 4000
