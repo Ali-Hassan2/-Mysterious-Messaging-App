@@ -40,7 +40,7 @@ const authOptions: NextAuthOptions = {
           return null
         }
 
-        return userw
+        return user
       },
     }),
   ],
